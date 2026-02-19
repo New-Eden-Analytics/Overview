@@ -1,83 +1,60 @@
 # New Eden Analytics
 
-New Eden Analytics is an end-to-end platform for analyzing and forecasting EVE Online
-market and production data using custom time-series and demand models.
+End-to-end EVE Online market analytics and forecasting platform with custom
+time-series and demand models.
 
-The system ingests live and historical data via scheduled API pipelines, normalizes and
-stores it in a relational database, applies domain-specific forecasting and activity
-models, and serves results through a React-based web application backed by a
-high-performance document store.
-
-It was designed and implemented as a modular, multi-repository system and developed
-as a complete, end-to-end engineering and modeling project.
+New Eden Analytics ingests live and historical market data, applies domain-specific
+forecasting models, and serves profitability and production insights through a
+web-based interface.
 
 ---
 
 ## Overview
 
-The primary goal of New Eden Analytics is to identify profitable production and trading
-opportunities by analyzing:
+The platform analyzes market prices, volumes, material costs, and production chains
+to identify profitable manufacturing and trading opportunities.
 
-- Historical and live market prices
-- Trading volumes and sales velocity
-- Material availability and costs
-- End-to-end production chains
+It provides:
 
-The platform forecasts material purchase prices, product sale prices, and demand trends,
-and generates recommendations for optimal production volumes and market entry timing.
-
-Results are presented through interactive dashboards, tabular reports, and
-Sankey-style production chain visualizations.
+- Price and demand forecasts
+- Production volume recommendations
+- Full supply-chain profitability analysis
+- Interactive visualizations and reports
 
 ---
 
-## System Architecture
+## Architecture
+
 ```
-            EVE Online API
-                    ↓
-    Scheduled Ingestion Jobs (Python)
-                    ↓
-           MariaDB (Core Storage)
-                    ↓
- Feature Engineering & Forecasting
- - Custom Exponential Smoothing
- - Sinusoidal Activity Modeling
-                    ↓
-           MongoDB (Serving Layer)
-                    ↓
-          React Web Application
+                 EVE Online API
+                       ↓
+     Dynamic Ingestion & ETL Manager (Python)
+                       ↓
+             MariaDB (Relational Core)
+                       ↓
+       Containerized Forecasting Services
+         - Custom Exponential Smoothing
+         - Sinusoidal Activity Modeling
+                       ↓
+             MariaDB (Model Outputs)
+                       ↓
+          Serving ETL (MariaDB → MongoDB)
+                       ↓
+             MongoDB (Serving Layer)
+                       ↓
+             React Web Application
+
 ```
 
+## Modeling
 
----
+Forecasting is implemented using custom, domain-specific models:
 
-## Modeling & Forecasting
+- Exponential smoothing for price and volume prediction
+- Sinusoidal regression for player activity cycles
+- Automated retraining and parameter persistence
 
-The forecasting layer is implemented using custom domain-specific models rather than
-off-the-shelf libraries.
-
-Key components include:
-
-- Custom exponential smoothing algorithms for short- and medium-term price and volume
-  forecasting
-- Sinusoidal regression models to capture cyclical player activity patterns
-- Automated batch retraining and parameter persistence
-- Integration with downstream profitability analysis
-
-These models are optimized for noisy, irregularly sampled market data and evolving
-player behavior patterns.
-
----
-
-## Key Capabilities
-
-- Automated ingestion of EVE Online market and production data
-- Normalization and validation of heterogeneous data sources
-- Relational and document-based storage layers
-- Time-series and demand forecasting
-- Profitability and margin analysis
-- Production chain dependency modeling
-- Interactive web-based exploration tools
+Models operate directly on relational data and publish results back to MariaDB.
 
 ---
 
@@ -120,54 +97,34 @@ This organization contains multiple modular components:
 
 ## My Role
 
-This project was developed and maintained as a solo, end-to-end engineering effort.
+This project was developed and operated as a solo, end-to-end engineering effort.
 
 Responsibilities included:
 
-- Overall system architecture and design
-- API integration and data ingestion pipelines
-- Database schema design (MariaDB)
-- Feature engineering and modeling pipelines
-- Development of custom forecasting models
-- Implementation of dual-database serving architecture
+- System and infrastructure architecture
+- Kubernetes (k3s) cluster on NixOS
+- Secure networking, VPN, and TLS
+- API ingestion and ETL pipelines
+- Database design (MariaDB, MongoDB)
+- Custom forecasting model development
 - Frontend development (React)
-- Deployment, scheduling, and maintenance
+- Deployment and long-term maintenance
 
 ---
 
 ## Technology Stack
 
-- **Languages:** Python, JavaScript
-- **Databases:** MariaDB, MongoDB
-- **Modeling:** Custom time-series and regression models (PyTorch-based components)
-- **Frontend:** React
-- **Infrastructure:** Local deployment
-- **APIs:** [EVE Online API](https://developers.eveonline.com/api-explorer)
-
----
-
-## Usage Model
-
-The platform is deployed locally and operates through scheduled background jobs that
-periodically refresh market and production data.
-
-Users interact with the system primarily through the web interface, which provides
-near-real-time access to forecasts, profitability analyses, and production planning tools.
+- Python, JavaScript
+- MariaDB, MongoDB
+- PyTorch-based modeling
+- React
+- Kubernetes (k3s), Nginx
+- NixOS
+- EVE Online ESI API
 
 ---
 
 ## Status
 
-New Eden Analytics is a mature prototype and research system.
-
-Core functionality is stable, and the system has been used extensively for personal
-analysis and experimentation. Public documentation and deployment automation are limited,
-as the platform was primarily designed for individual use.
-
-The project is maintained in a low-activity / reference mode.
-
----
-
-## License
-
-See individual repositories for license information.
+Mature prototype and research platform developed for personal analytics.
+Maintained in reference mode with stable core functionality.
