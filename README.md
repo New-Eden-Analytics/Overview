@@ -64,6 +64,8 @@ This organization contains multiple modular components:
 
 ### Core Components
 
+Note: Most repos contain their code in the `develop` branch, not main.
+
 - [**NEA-EsiParser**](https://github.com/New-Eden-Analytics/NEA-EsiParser)  
   API ingestion and normalization layer
 
