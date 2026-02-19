@@ -62,9 +62,9 @@ Models operate directly on relational data and publish results back to MariaDB.
 
 This organization contains multiple modular components:
 
-### Core Components
-
 Note: Most repos contain their code in the `develop` branch, not main.
+
+### Core Components
 
 - [**NEA-EsiParser**](https://github.com/New-Eden-Analytics/NEA-EsiParser)  
   API ingestion and normalization layer
