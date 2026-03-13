@@ -36,6 +36,7 @@ Changes are typically merged into `dev` first. Periodic PRs are created from `de
 - Avoid mixing unrelated code, tests, docs, and config changes unless required for one atomic change.
 - Prefer semantic commit messages (Conventional Commits), for example: `feat:`, `fix:`, `refactor:`, `chore:`, `ci:`.
 - Draft PRs are recommended by default, but this is guidance rather than a hard requirement.
+- Do not add AI attribution to commit messages (AI usage is documented in README).
 
 ## Explicit Instruction Mode
 
