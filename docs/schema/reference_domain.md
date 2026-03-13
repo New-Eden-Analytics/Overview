@@ -1,18 +1,21 @@
 # NEA MVP Schema — Reference Domain
 
-## 1. Purpose
+Schema Version: NEA MVP v1
 
-The Reference domain contains the static game data required for NEA v1 to determine:
+---
+
+# 1. Purpose
+
+The Reference Domain contains the static game data required for NEA v1 to determine:
 
 - what items exist
 - what blueprints exist
 - what item each blueprint produces
 - what materials are required to manufacture that item
-- whether an item is eligible for single-step manufacturing analysis
 
 This domain serves as the **canonical source of production definitions** used by the NEA recommendation engine.
 
-The Reference domain does **not** contain market data, corporation-specific blueprint ownership, active jobs, sell orders, or any other operational state.
+The Reference Domain does **not** contain market data, corporation-specific blueprint ownership, active jobs, sell orders, or any other operational state.
 
 ---
 
@@ -20,7 +23,7 @@ The Reference domain does **not** contain market data, corporation-specific blue
 
 ## Included
 
-The Reference domain includes:
+The Reference Domain includes:
 
 - item/type definitions relevant to manufacturing
 - blueprint definitions
@@ -35,7 +38,7 @@ This information allows NEA to determine:
 
 ## Excluded
 
-The Reference domain does **not** include:
+The Reference Domain does **not** include:
 
 - market prices
 - market history
@@ -54,34 +57,54 @@ These concerns belong to other domains.
 
 # 3. Design Goals
 
-The Reference domain schema must satisfy the following goals:
+The Reference Domain schema must satisfy the following goals:
 
 1. Identify all manufacturable items relevant to NEA.
 2. Identify which blueprint produces each manufacturable item.
 3. Identify the materials required to manufacture each item.
-4. Provide clean join points for market pricing and corporation production state.
+4. Provide clean join points for the Market Observation Domain and the Corporation Production State Domain.
 5. Avoid embedding corporation-specific or market-specific logic.
 
 This domain should remain **purely static game data**.
 
 ---
 
-# 4. Canonical Entities
+# 4. Identifier Convention
 
-The Reference domain for NEA v1 consists of four core tables:
+All item identifiers use the canonical `type_id` identifier.
+
+Columns referencing items follow these naming patterns:
+
+| Column Pattern | Meaning |
+|---|---|
+| `type_id` | Generic item reference |
+| `product_type_id` | Produced item reference |
+| `material_type_id` | Input material reference |
+
+Blueprint identifiers follow the pattern:
+
+| Column | Meaning |
+|---|---|
+| `blueprint_type_id` | Blueprint type identifier |
+
+This convention is used consistently across all NEA MVP domains.
+
+---
+
+# 5. Canonical Entities
+
+The Reference Domain for NEA v1 consists of four tables:
 
 1. `item_type`
 2. `blueprint`
 3. `blueprint_product`
 4. `blueprint_material`
 
-These tables define the manufacturing relationships required by the recommendation engine.
-
 ---
 
-# 5. Table Definitions
+# 6. Table Definitions
 
-## 5.1 `item_type`
+## 6.1 `item_type`
 
 Defines the canonical registry of item types relevant to manufacturing.
 
@@ -89,12 +112,6 @@ This table represents both:
 
 - items that can be produced
 - items that are used as production materials
-
-### Purpose
-
-- Provide stable identifiers for items
-- Provide item names for output/reporting
-- Provide join targets for blueprint outputs and materials
 
 ### Primary Key
 
@@ -105,7 +122,7 @@ type_id
 ### Core Columns
 
 | Column | Description |
-|------|-------------|
+|---|---|
 | type_id | Canonical EVE type ID |
 | type_name | Human-readable item name |
 | group_id | Optional grouping metadata |
@@ -114,22 +131,15 @@ type_id
 
 ### Notes
 
-Manufacturability is **not stored directly**.  
-It is derived from the presence of a corresponding row in `blueprint_product`.
+Manufacturability is **derived**, not stored.
+
+An item is considered manufacturable if it appears as an output in `blueprint_product`.
 
 ---
 
-## 5.2 `blueprint`
+## 6.2 `blueprint`
 
-Defines the canonical registry of blueprint definitions.
-
-This table represents blueprint types independent of player ownership.
-
-### Purpose
-
-- Provide blueprint identity
-- Serve as the parent entity for production relationships
-- Support joins into blueprint products and materials
+Defines blueprint type definitions.
 
 ### Primary Key
 
@@ -140,200 +150,166 @@ blueprint_type_id
 ### Core Columns
 
 | Column | Description |
-|------|-------------|
+|---|---|
 | blueprint_type_id | Canonical blueprint type ID |
 | blueprint_name | Human-readable blueprint name |
-| published | Optional flag from source data |
+| published | Optional flag |
 
 ### Notes
 
 This table represents the **blueprint definition only**.
 
-Corporation-owned blueprint instances belong in the **Corporation Production State domain**.
+Corporation-owned blueprint instances belong in the **Corporation Production State Domain**.
 
 ---
 
-## 5.3 `blueprint_product`
+## 6.3 `blueprint_product`
 
-Defines the manufacturing output produced by a blueprint.
-
-Each row represents the item produced when the blueprint is used for manufacturing.
-
-### Purpose
-
-- Map blueprint definitions to produced items
-- Identify candidate items for manufacturing analysis
+Defines which item a blueprint produces when used for manufacturing.
 
 ### Primary Key
 
-Composite key:
-
 ```
-blueprint_type_id
-product_type_id
+(blueprint_type_id, product_type_id)
 ```
 
 ### Core Columns
 
 | Column | Description |
-|------|-------------|
-| blueprint_type_id | FK → `blueprint.blueprint_type_id` |
-| product_type_id | FK → `item_type.type_id` |
-| quantity | Number of output units produced per run |
+|---|---|
+| blueprint_type_id | FK → blueprint.blueprint_type_id |
+| product_type_id | FK → item_type.type_id |
+| quantity | Units produced per run |
 
 ### Notes
 
 This table only contains **manufacturing outputs**.
 
-Other industry activities (invention, reactions, copying, etc.) are intentionally excluded from the MVP Reference domain.
+Other industry activities such as invention or reactions are intentionally excluded from the MVP schema.
 
 ---
 
-## 5.4 `blueprint_material`
+## 6.4 `blueprint_material`
 
-Defines the material inputs required to manufacture an item using a blueprint.
-
-### Purpose
-
-- Represent the input materials required for production
-- Support material-cost calculations
+Defines the materials required to manufacture an item.
 
 ### Primary Key
 
-Composite key:
-
 ```
-blueprint_type_id
-material_type_id
+(blueprint_type_id, material_type_id)
 ```
 
 ### Core Columns
 
 | Column | Description |
-|------|-------------|
-| blueprint_type_id | FK → `blueprint.blueprint_type_id` |
-| material_type_id | FK → `item_type.type_id` |
-| quantity | Base material quantity required before ME adjustment |
+|---|---|
+| blueprint_type_id | FK → blueprint.blueprint_type_id |
+| material_type_id | FK → item_type.type_id |
+| quantity | Base quantity required before ME adjustment |
 
 ### Notes
 
-Material quantities stored here represent **canonical base values**.
+Material quantities represent **base blueprint requirements**.
 
-Blueprint Material Efficiency adjustments are applied later using corporation-owned blueprint attributes.
+Material Efficiency adjustments are applied later using blueprint attributes stored in the **Corporation Production State Domain**.
 
 ---
 
-# 6. Relationships
+# 7. Relationships
 
-The core relationships within the Reference domain are:
+Core relationships within the Reference Domain:
 
 ```
-blueprint_product.blueprint_type_id -> blueprint.blueprint_type_id
-blueprint_product.product_type_id -> item_type.type_id
+blueprint_product.blueprint_type_id → blueprint.blueprint_type_id
+blueprint_product.product_type_id → item_type.type_id
 
-blueprint_material.blueprint_type_id -> blueprint.blueprint_type_id
-blueprint_material.material_type_id -> item_type.type_id
+blueprint_material.blueprint_type_id → blueprint.blueprint_type_id
+blueprint_material.material_type_id → item_type.type_id
 ```
 
 Conceptually:
 
-- a blueprint definition produces an item
-- a blueprint definition requires one or more materials
-- both outputs and materials are represented in `item_type`
+- a blueprint produces an item
+- a blueprint requires materials
+- both outputs and inputs are represented in `item_type`
 
 ---
 
-# 7. Domain Rules
+# 8. Domain Rules
 
-The following rules apply to the Reference domain.
-
-### Rule 1 — Static Data Only
+## Rule 1 — Static Data Only
 
 This domain contains only static game definitions.
 
-No corporation state, user state, market state, or recommendation output may be stored here.
+No corporation state, market state, or recommendation output may be stored here.
 
----
+## Rule 2 — Blueprint Definitions vs Instances
 
-### Rule 2 — Blueprint Definition vs Blueprint Ownership
+Blueprint definitions stored here represent **blueprint types**.
 
-Blueprint definitions stored here represent **types of blueprints**, not specific blueprint instances.
+Owned blueprint instances are stored in the **Corporation Production State Domain**.
 
-Owned blueprints belong in the **Corporation Production State domain**.
+## Rule 3 — Manufacturing Only
 
----
-
-### Rule 3 — Manufacturing Only
-
-The Reference domain contains **manufacturing-related data only**.
+The Reference Domain contains **manufacturing-related data only**.
 
 Other industry activities are excluded from the MVP schema.
 
----
-
-### Rule 4 — Material Quantities Are Stored Pre-ME
+## Rule 4 — Material Quantities Are Stored Pre-ME
 
 Material quantities represent base blueprint values.
 
-Material Efficiency adjustments are applied later using corporation blueprint state.
+Material Efficiency adjustments are applied later using blueprint instance attributes.
+
+## Rule 5 — Manufacturability Is Derived
+
+An item is considered manufacturable if it appears in `blueprint_product`.
 
 ---
 
-### Rule 5 — Manufacturability Is Derived
+# 9. Expected Usage in NEA v1
 
-An item is considered manufacturable if it appears as a valid output in `blueprint_product`.
+The Reference Domain supports the following operations.
 
-Manufacturability is **not stored as a separate field**.
+### Identify Manufacturable Items
 
----
-
-# 8. Expected Usage in NEA v1
-
-The Reference domain supports the following core operations.
-
-### Identify Candidate Items
-
-By joining corporation-owned blueprint instances to `blueprint_product`, NEA can determine which items are eligible for production analysis.
-
----
+By joining corporation blueprint instances with `blueprint_product`, NEA identifies items that can be produced.
 
 ### Determine Material Requirements
 
-By joining `blueprint_product` and `blueprint_material`, NEA can determine the material list required to manufacture each candidate item.
-
----
+By joining `blueprint_product` with `blueprint_material`, NEA determines required inputs.
 
 ### Join Market Prices
 
-By joining item IDs from the Reference domain with market observation data, NEA can estimate:
+By joining item IDs with the Market Observation Domain, NEA determines:
 
-- output item sale price
-- material input cost
+- output sale price
+- input material cost
 
 ---
 
-# 9. Out-of-Scope Extensions
+# 10. Out-of-Scope Extensions
 
-The following potential extensions are intentionally excluded from the MVP Reference domain:
+The following potential extensions are intentionally excluded from the MVP Reference Domain:
 
-- recursive production-chain metadata
-- invention and reaction activity modeling
+- recursive production-chain modeling
+- invention workflows
+- reaction workflows
 - blueprint time efficiency metadata
-- facility or structure production modifiers
-- richer category or grouping hierarchies
+- structure modifiers
 - multi-activity industry modeling
 
-These may be introduced in future versions if required.
+These may be introduced in future versions.
 
 ---
 
-# 10. Minimal MVP Table Summary
+# 11. Minimal MVP Table Summary
 
 | Table | Purpose |
 |---|---|
-| `item_type` | Canonical registry of manufacturable outputs and material inputs |
-| `blueprint` | Canonical blueprint definition registry |
-| `blueprint_product` | Mapping from blueprint to produced item |
-| `blueprint_material` | Mapping from blueprint to required materials |
+| item_type | Canonical registry of manufacturable items and materials |
+| blueprint | Blueprint type definitions |
+| blueprint_product | Blueprint → output mapping |
+| blueprint_material | Blueprint → material requirements |
 
-This set of tables represents the **minimum Reference domain required to support the NEA v1 recommendation engine**.
+This set of tables represents the **minimum Reference Domain required to support the NEA v1 recommendation engine**.
