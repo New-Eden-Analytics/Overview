@@ -142,5 +142,4 @@ AI tooling may assist with test authoring, documentation drafting/editing, GitHu
 
 ## Status
 
-Mature prototype and research platform developed for personal analytics.
-Maintained in reference mode with stable core functionality.
+Active refactor and rebuild in progress using milestone-driven MVP development with explicit versioned specifications.
