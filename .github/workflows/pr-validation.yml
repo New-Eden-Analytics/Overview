@@ -1,0 +1,38 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  branch-strategy:
+    name: Validate Branch Strategy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR to main comes from dev
+        if: github.base_ref == 'main'
+        run: |
+          if [ "${{ github.head_ref }}" != "dev" ]; then
+            echo "❌ Error: PRs to 'main' must come from 'dev' branch"
+            echo "Current PR: ${{ github.head_ref }} → ${{ github.base_ref }}"
+            echo ""
+            echo "Per AGENTS.md branch strategy:"
+            echo "  - Direct commits to 'main' are not allowed"
+            echo "  - PRs to 'main' should come from 'dev'"
+            echo "  - Feature branches should target 'dev', not 'main'"
+            exit 1
+          else
+            echo "✓ PR correctly targets 'main' from 'dev'"
+          fi
+
+      - name: Validate PR to dev
+        if: github.base_ref == 'dev'
+        run: |
+          echo "✓ PR targets 'dev' branch"
+          echo "Source branch: ${{ github.head_ref }}"
+          echo ""
+          echo "This is valid per AGENTS.md branch strategy:"
+          echo "  - Direct commits to 'dev' are allowed"
+          echo "  - Feature branches may target 'dev'"
