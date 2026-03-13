@@ -1,60 +1,71 @@
 # New Eden Analytics
 
-End-to-end EVE Online market analytics and forecasting platform with custom
-time-series and demand models.
+End-to-end EVE Online industrial analytics platform.
 
-New Eden Analytics ingests live and historical market data, applies domain-specific
-forecasting models, and serves profitability and production insights through a
-web-based interface.
+Historically, NEA included forecasting-heavy analytics and model-driven workflows.
+The current version is focused on a gradual rebuild using explicit MVP milestones
+and versioned specifications, with v1 centered on reliable profitability ranking.
 
 ---
 
 ## Overview
 
-The platform analyzes market prices, volumes, material costs, and production chains
-to identify profitable manufacturing and trading opportunities.
+The platform analyzes market prices, material costs, blueprint capability, and
+current corporation pipeline state to identify profitable manufacturing opportunities.
 
 It provides:
 
-- Price and demand forecasts
-- Production volume recommendations
-- Full supply-chain profitability analysis
-- Interactive visualizations and reports
+- Ranked candidate items by estimated per-unit profitability
+- Exclusion of items already in production, staging, or active sale
+- Lightweight, fast pull-based analysis for daily decision support
+- Operational telemetry for ingestion observability and debugging
+
+Current delivery approach:
+
+- milestone-driven MVP development
+- explicit versioned specifications (for example, MVP v1)
+- incremental scope expansion after reliability and usability validation
 
 ---
 
 ## Architecture
 
 ```
-                 EVE Online API
+           EVE Online API + SDE Sources
                        ↓
-     Dynamic Ingestion & ETL Manager (Python)
+         Ingestion and Refresh Pipelines
                        ↓
-             MariaDB (Relational Core)
+            Relational Domain Storage
+  (Reference, Corporation, Market, Configuration)
                        ↓
-       Containerized Forecasting Services
-         - Custom Exponential Smoothing
-         - Sinusoidal Activity Modeling
+              Analysis Query/Compute
                        ↓
-             MariaDB (Model Outputs)
+          Ranked Manufacturing Candidates
                        ↓
-          Serving ETL (MariaDB → MongoDB)
-                       ↓
-             MongoDB (Serving Layer)
-                       ↓
-             React Web Application
+         Run and Request Telemetry Logs
 
 ```
 
-## Modeling
+## Analysis Model
 
-Forecasting is implemented using custom, domain-specific models:
+The MVP uses a deliberately simple profitability model:
 
-- Exponential smoothing for price and volume prediction
-- Sinusoidal regression for player activity cycles
-- Automated retraining and parameter persistence
+- Estimated Profit = Estimated Sale Price - Estimated Production Cost
+- Sale price from current market snapshot data
+- Production cost from blueprint material requirements, ME, and material pricing
+- Flat configured cost rate for taxes/fees approximation
 
-Models operate directly on relational data and publish results back to MariaDB.
+Forecasting is intentionally deferred from MVP scope.
+
+---
+
+## Documentation
+
+This README is the primary project overview. Detailed MVP/schema specifications are
+available in `docs/`, including:
+
+- [NEA MVP v1 Specification](docs/nea_mvp_v1.md)
+- `docs/schema/*.md`
 
 ---
 
@@ -62,7 +73,8 @@ Models operate directly on relational data and publish results back to MariaDB.
 
 This organization contains multiple modular components:
 
-Note: Most repos contain their code in the `develop` branch, not main.
+Note: Most repos use a `main` and `dev` branch strategy, with ongoing work
+typically integrated in `dev`.
 
 ### Core Components
 
@@ -111,6 +123,8 @@ Responsibilities included:
 - Custom forecasting model development
 - Frontend development (React)
 - Deployment and long-term maintenance
+
+AI tooling may assist with test authoring, documentation drafting/editing, GitHub Actions/workflow authoring and maintenance, and development guidance for planning/decision support.
 
 ---
 
