@@ -329,6 +329,8 @@ Buy orders are not tracked in the MVP schema.
 
 The Corporation Production State Domain supports the following operations.
 
+## Usage Examples
+
 ### Blueprint Eligibility
 
 Determine whether a blueprint instance exists for a producible item.

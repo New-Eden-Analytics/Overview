@@ -271,6 +271,8 @@ An item is considered manufacturable if it appears in `blueprint_product`.
 
 The Reference Domain supports the following operations.
 
+## Usage Examples
+
 ### Identify Manufacturable Items
 
 By joining corporation blueprint instances with `blueprint_product`, NEA identifies items that can be produced.

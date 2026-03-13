@@ -160,6 +160,8 @@ Station-level price modeling is intentionally excluded.
 
 The Market Observation Domain supports the following operations.
 
+## Usage Examples
+
 ### Estimate Output Sale Price
 
 By joining produced item IDs with `market_price_snapshot`, NEA determines the estimated sale price used in profitability calculations.

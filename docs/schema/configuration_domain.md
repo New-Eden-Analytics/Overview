@@ -171,6 +171,8 @@ Values such as `flat_market_cost_rate` represent operational assumptions used du
 
 The Configuration Domain supports the following operations.
 
+## Usage Examples
+
 ### Determine Operating Context
 
 Identify which corporation and region NEA should operate against.

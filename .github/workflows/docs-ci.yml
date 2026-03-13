@@ -35,4 +35,4 @@ jobs:
         uses: lycheeverse/lychee-action@v2
         with:
           fail: true
-          args: --offline --no-progress --exclude-mail --base . "**/*.md"
+          args: --offline --no-progress --base . "**/*.md"

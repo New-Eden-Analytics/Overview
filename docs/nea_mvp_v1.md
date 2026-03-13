@@ -1,5 +1,4 @@
-# New Eden Analytics (NEA)
-# Minimum Viable Product (MVP) Specification
+# New Eden Analytics (NEA) - Minimum Viable Product (MVP) Specification
 
 ---
 
@@ -149,6 +148,8 @@ Estimated Profit = Estimated Sale Price − Estimated Production Cost
 ```
 
 Where:
+
+## Price Components
 
 ### Estimated Sale Price
 

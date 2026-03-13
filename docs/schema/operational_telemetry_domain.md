@@ -1,5 +1,4 @@
-# Operational Telemetry Domain Specification
-## New Eden Analytics (NEA)
+# Operational Telemetry Domain Specification - New Eden Analytics (NEA)
 
 ---
 
