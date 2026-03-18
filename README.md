@@ -61,11 +61,27 @@ Forecasting is intentionally deferred from MVP scope.
 
 ## Documentation
 
-This README is the primary project overview. Detailed MVP/schema specifications are
-available in `docs/`, including:
+This README is the primary project overview. Detailed specifications and implementation guides are available in `docs/`:
 
-- [NEA MVP v1 Specification](docs/nea_mvp_v1.md)
-- `docs/schema/*.md`
+**Core Specifications:**
+- [NEA MVP v1 Specification](docs/mvp_v1/specification.md) - Requirements and scope
+- [MVP v1 Roadmap](docs/mvp_v1/roadmap.md) - Implementation milestones (M0-M6)
+
+**Implementation Guides:**
+- [Component Repository Mapping](docs/mvp_v1/implementation/component_repository_mapping.md) - GitHub repo structure
+- [Testing Strategy](docs/mvp_v1/implementation/testing_strategy.md) - Manual validation approach
+- [ESI Endpoints](docs/mvp_v1/implementation/esi_endpoints.md) - EVE API integration details
+
+**Architecture & Design:**
+- [Data Model Diagram](docs/mvp_v1/architecture/data_model.md) - Database schema visualization
+- [Infrastructure Diagram](docs/mvp_v1/architecture/infrastructure.md) - Kubernetes architecture
+
+**Schema Specifications:**
+- [Reference Domain](docs/mvp_v1/schema/reference_domain.md) - Static game data (SDE)
+- [Corporation Domain](docs/mvp_v1/schema/corporation_domain.md) - Corp state from ESI
+- [Market Domain](docs/mvp_v1/schema/market_domain.md) - Market pricing data
+- [Configuration Domain](docs/mvp_v1/schema/configuration_domain.md) - Runtime configuration
+- [Operational Telemetry Domain](docs/mvp_v1/schema/operational_telemetry_domain.md) - Observability
 
 ---
 
