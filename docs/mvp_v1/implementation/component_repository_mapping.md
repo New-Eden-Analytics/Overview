@@ -3,6 +3,7 @@
 This document maps each milestone's deliverables to the appropriate GitHub repositories.
 
 **Related Documentation:**
+
 - [MVP v1 Roadmap](../roadmap.md) - Milestone definitions and timeline
 - [Testing Strategy](testing_strategy.md) - How to validate deliverables
 - [Infrastructure Diagram](../architecture/infrastructure.md) - Deployment architecture
@@ -27,14 +28,17 @@ This document maps each milestone's deliverables to the appropriate GitHub repos
 **Infrastructure only - no code repositories involved**
 
 **Deliverables:**
+
 - k8s manifests (MariaDB deployment, service, PVC)
 - Database connection validation
 
 **Location:**
+
 - Create new directory: `infrastructure/` or `k8s/` in Overview repo
 - Or create separate repo: `NEA-Infrastructure` (optional)
 
 **Files:**
+
 ```
 infrastructure/
 ├── mariadb/
@@ -52,10 +56,12 @@ infrastructure/
 ### NEA-Schema
 
 **Deliverables:**
+
 - Initial schema with minimal tables
 - Setup for migration tool (if using)
 
 **Files:**
+
 ```
 NEA-Schema/
 ├── migrations/
@@ -65,6 +71,7 @@ NEA-Schema/
 ```
 
 **Tables created:**
+
 - `item_type`
 - `blueprint`
 - `blueprint_material`
@@ -76,11 +83,13 @@ NEA-Schema/
 ### NEA-Analysis
 
 **Deliverables:**
+
 - First Jupyter notebook
 - Database connection utilities
 - Basic profitability query
 
 **Files:**
+
 ```
 NEA-Analysis/
 ├── notebooks/
@@ -98,10 +107,12 @@ NEA-Analysis/
 ### NEA-Schema
 
 **Deliverables:**
+
 - Complete Reference Domain tables
 - Migration to add indexes and missing columns
 
 **Files:**
+
 ```
 NEA-Schema/
 ├── migrations/
@@ -110,6 +121,7 @@ NEA-Schema/
 ```
 
 **Tables added/modified:**
+
 - `item_type` (expanded)
 - `blueprint` (expanded)
 - `blueprint_product` (new)
@@ -120,11 +132,13 @@ NEA-Schema/
 ### NEA-SdeParser
 
 **Deliverables:**
+
 - SDE file parser
 - Database insertion logic
 - Kubernetes Job manifest
 
 **Files:**
+
 ```
 NEA-SdeParser/
 ├── src/
@@ -147,10 +161,12 @@ NEA-SdeParser/
 ### NEA-Analysis
 
 **Deliverables:**
+
 - Updated notebook with multi-item queries
 - Material cost calculations
 
 **Files:**
+
 ```
 NEA-Analysis/
 ├── notebooks/
@@ -168,10 +184,12 @@ NEA-Analysis/
 ### NEA-Schema
 
 **Deliverables:**
+
 - Corporation Domain tables
 - Migration for corp tables
 
 **Files:**
+
 ```
 NEA-Schema/
 ├── migrations/
@@ -181,6 +199,7 @@ NEA-Schema/
 ```
 
 **Tables added:**
+
 - `corp_location`
 - `corp_blueprint_instance`
 - `corp_industry_job`
@@ -192,12 +211,14 @@ NEA-Schema/
 ### NEA-EsiParser
 
 **Deliverables:**
+
 - ESI API client
 - OAuth token handling
 - Corporation endpoint parsers
 - Kubernetes CronJob manifest
 
 **Files:**
+
 ```
 NEA-EsiParser/
 ├── src/
@@ -226,9 +247,11 @@ NEA-EsiParser/
 ### NEA-SsoAuth (Optional for MVP)
 
 **Deliverables:**
+
 - Token management utilities (if not embedded in NEA-EsiParser)
 
 **Files:**
+
 ```
 NEA-SsoAuth/
 ├── src/
@@ -245,10 +268,12 @@ NEA-SsoAuth/
 ### NEA-Analysis
 
 **Deliverables:**
+
 - Updated notebook with exclusion logic
 - Exclusion queries
 
 **Files:**
+
 ```
 NEA-Analysis/
 ├── notebooks/
@@ -267,10 +292,12 @@ NEA-Analysis/
 ### NEA-Schema
 
 **Deliverables:**
+
 - Market Domain table
 - Migration for market table
 
 **Files:**
+
 ```
 NEA-Schema/
 ├── migrations/
@@ -281,6 +308,7 @@ NEA-Schema/
 ```
 
 **Tables added:**
+
 - `market_price_snapshot`
 
 ---
@@ -288,11 +316,13 @@ NEA-Schema/
 ### NEA-EsiParser
 
 **Deliverables:**
+
 - Market history endpoint parser
 - Price calculation logic
 - Updated CronJob for market refresh
 
 **Files:**
+
 ```
 NEA-EsiParser/
 ├── src/
@@ -316,10 +346,12 @@ NEA-EsiParser/
 ### NEA-Analysis
 
 **Deliverables:**
+
 - Updated notebook with real profit calculations
 - Ranking logic
 
 **Files:**
+
 ```
 NEA-Analysis/
 ├── notebooks/
@@ -339,10 +371,12 @@ NEA-Analysis/
 ### NEA-Schema
 
 **Deliverables:**
+
 - Operational Telemetry Domain tables
 - Migration for telemetry tables
 
 **Files:**
+
 ```
 NEA-Schema/
 ├── migrations/
@@ -354,6 +388,7 @@ NEA-Schema/
 ```
 
 **Tables added:**
+
 - `source_instance`
 - `source_sync_status`
 - `source_refresh_run`
@@ -365,9 +400,11 @@ NEA-Schema/
 ### NEA-SdeParser
 
 **Deliverables:**
+
 - Telemetry logging integration
 
 **Files:**
+
 ```
 NEA-SdeParser/
 ├── src/
@@ -386,10 +423,12 @@ NEA-SdeParser/
 ### NEA-EsiParser
 
 **Deliverables:**
+
 - Telemetry logging integration
 - API request logging
 
 **Files:**
+
 ```
 NEA-EsiParser/
 ├── src/
@@ -410,10 +449,12 @@ NEA-EsiParser/
 ### NEA-Analysis
 
 **Deliverables:**
+
 - Data freshness checks in notebook
 - Telemetry query utilities
 
 **Files:**
+
 ```
 NEA-Analysis/
 ├── notebooks/
@@ -436,11 +477,13 @@ NEA-Analysis/
 ### Infrastructure/Overview
 
 **Deliverables:**
+
 - Updated k8s manifests with proper schedules
 - ConfigMaps and Secrets templates
 - Production-ready deployment instructions
 
 **Files:**
+
 ```
 infrastructure/
 ├── mariadb/
@@ -460,11 +503,13 @@ infrastructure/
 ### All Parser Repositories
 
 **Deliverables:**
+
 - Error handling and retry logic
 - Better logging and error messages
 - Updated READMEs
 
 **Files in each parser repo:**
+
 ```
 src/
 ├── (existing files updated with error handling)
@@ -478,11 +523,13 @@ README.md (updated with MVP v1 context)
 ### NEA-Analysis
 
 **Deliverables:**
+
 - Polished notebook
 - Export functionality
 - Usage documentation
 
 **Files:**
+
 ```
 NEA-Analysis/
 ├── notebooks/
@@ -522,6 +569,7 @@ NEA-Analysis/
 ### Cross-Repository Changes
 
 When a milestone touches multiple repos:
+
 1. Work on repos in dependency order (Schema → Parsers → Analysis)
 2. Test integration after each repo update
 3. Can commit to `dev` in each repo independently
@@ -534,12 +582,14 @@ When a milestone touches multiple repos:
 **Registry:** Docker Hub (or GitHub Container Registry)
 
 **Naming Convention:**
+
 - `neweden/nea-sde-parser:latest`
 - `neweden/nea-sde-parser:v1.0.0`
 - `neweden/nea-esi-parser:latest`
 - `neweden/nea-esi-parser:v1.0.0`
 
 **Tagging Strategy:**
+
 - `latest` - current dev branch
 - `v1.0.0` - tagged release when MVP complete
 - `dev` - development builds (optional)

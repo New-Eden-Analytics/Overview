@@ -3,6 +3,7 @@
 Schema Version: NEA MVP v1
 
 **Related Documentation:**
+
 - [MVP v1 Specification](../specification.md) - Overall requirements
 - [Data Model Diagram](../architecture/data_model.md) - Visual schema overview
 - [ESI Endpoints](../implementation/esi_endpoints.md) - Market history API endpoint (M4)

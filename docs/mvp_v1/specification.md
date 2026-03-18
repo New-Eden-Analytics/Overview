@@ -1,6 +1,7 @@
 # New Eden Analytics (NEA) - Minimum Viable Product (MVP) Specification
 
 **Related Documentation:**
+
 - [MVP v1 Roadmap](roadmap.md) - Implementation milestones and timeline
 - [Component Repository Mapping](implementation/component_repository_mapping.md) - GitHub repository structure
 - [Testing Strategy](implementation/testing_strategy.md) - Validation and testing approach

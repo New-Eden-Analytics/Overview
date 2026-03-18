@@ -3,6 +3,7 @@
 Schema Version: NEA MVP v1
 
 **Related Documentation:**
+
 - [MVP v1 Specification](../specification.md) - Overall requirements
 - [Data Model Diagram](../architecture/data_model.md) - Visual schema overview
 - [MVP v1 Roadmap](../roadmap.md) - Implementation timeline (M5)

@@ -1,20 +1,23 @@
 # ESI Endpoints for NEA MVP v1
 
-**Reference:** https://developers.eveonline.com/api-explorer
+**Reference:** <https://developers.eveonline.com/api-explorer>
 
 **Authentication:** OAuth2 with required scopes (documented per endpoint below)
 
 **Related Documentation:**
+
 - [Corporation Domain Schema](../schema/corporation_domain.md) - Tables populated by these endpoints
 - [Market Domain Schema](../schema/market_domain.md) - Market data tables
 - [MVP v1 Roadmap](../roadmap.md) - When each endpoint is implemented
 
 **Rate Limits:**
+
 - Authenticated: 300 requests per minute per token
 - Unauthenticated: 150 requests per minute per IP
 - Error limit: 100 errors per minute (triggers temporary ban)
 
 **Best Practices:**
+
 - Respect cache headers (most endpoints cache for 5-30 minutes)
 - Use If-None-Match with ETags to avoid unnecessary data transfer
 - Handle 503 (service unavailable) with exponential backoff retry
@@ -33,10 +36,12 @@
 **Required Scope:** `esi-corporations.read_blueprints.v1`
 
 **Parameters:**
+
 - `corporation_id` (path) - Your corporation ID
 - `page` (query, optional) - Page number for pagination (default: 1)
 
 **Response:** Array of blueprint objects
+
 ```json
 [
   {
@@ -53,6 +58,7 @@
 ```
 
 **Notes:**
+
 - `quantity = -1` means BPO (original)
 - `quantity = -2` means BPC (copy)
 - `runs = -1` for BPO (infinite runs)
@@ -72,10 +78,12 @@
 **Required Scope:** `esi-industry.read_corporation_jobs.v1`
 
 **Parameters:**
+
 - `corporation_id` (path) - Your corporation ID
 - `include_completed` (query, optional) - Include completed jobs (default: false)
 
 **Response:** Array of job objects
+
 ```json
 [
   {
@@ -105,6 +113,7 @@
 ```
 
 **Notes:**
+
 - `activity_id = 1` is manufacturing
 - `status` can be: "active", "paused", "ready", "delivered", "cancelled", "reverted"
 - For MVP, filter on `status = "active"` and `activity_id = 1`
@@ -123,10 +132,12 @@
 **Required Scope:** `esi-assets.read_corporation_assets.v1`
 
 **Parameters:**
+
 - `corporation_id` (path) - Your corporation ID
 - `page` (query, optional) - Page number for pagination (default: 1)
 
 **Response:** Array of asset objects
+
 ```json
 [
   {
@@ -143,6 +154,7 @@
 ```
 
 **Notes:**
+
 - Paginated (1000 items per page)
 - Filter by `location_id` matching your staging location from `nea_config`
 - `location_flag` indicates which hangar/container
@@ -161,10 +173,12 @@
 **Required Scope:** `esi-markets.read_corporation_orders.v1`
 
 **Parameters:**
+
 - `corporation_id` (path) - Your corporation ID
 - `page` (query, optional) - Page number for pagination (default: 1)
 
 **Response:** Array of order objects
+
 ```json
 [
   {
@@ -188,6 +202,7 @@
 ```
 
 **Notes:**
+
 - Filter on `is_buy_order = false` (only sell orders matter for MVP)
 - Filter on `state = "active"`
 - Paginated (1000 items per page)
@@ -208,10 +223,12 @@
 **Required Scope:** None (public endpoint)
 
 **Parameters:**
+
 - `region_id` (path) - Region ID (e.g., 10000002 for The Forge/Jita)
 - `type_id` (query) - Item type ID
 
 **Response:** Array of history objects
+
 ```json
 [
   {
@@ -234,6 +251,7 @@
 ```
 
 **Notes:**
+
 - Returns up to 13 months of daily history
 - For MVP, use average of last 7 days
 - Must call once per type_id (can batch via multiple requests)
@@ -249,14 +267,17 @@
 These are mentioned in specs but not required for MVP:
 
 ### Corporation Locations (for resolving location names)
+
 **Endpoint:** `POST /v2/corporations/{corporation_id}/assets/locations/`
 **Use case:** Get human-readable names for location_ids
 
 ### Corporation Names (for resolving container names)
+
 **Endpoint:** `POST /v2/corporations/{corporation_id}/assets/names/`
 **Use case:** Get names for containers/hangars
 
 ### Universe Structures (for structure info)
+
 **Endpoint:** `GET /v2/universe/structures/{structure_id}/`
 **Use case:** Get structure names and details
 
@@ -266,8 +287,8 @@ These are mentioned in specs but not required for MVP:
 
 ### Getting an OAuth Token
 
-1. **Register application** at https://developers.eveonline.com/applications
-   - Callback URL: http://localhost (for manual token flow)
+1. **Register application** at <https://developers.eveonline.com/applications>
+   - Callback URL: <http://localhost> (for manual token flow)
    - Scopes needed:
      - `esi-corporations.read_blueprints.v1`
      - `esi-industry.read_corporation_jobs.v1`
@@ -280,6 +301,7 @@ These are mentioned in specs but not required for MVP:
    - Copy authorization code from redirect URL
 
 3. **Exchange for access token**:
+
    ```bash
    curl -X POST https://login.eveonline.com/v2/oauth/token \
      -u "{client_id}:{client_secret}" \
@@ -287,6 +309,7 @@ These are mentioned in specs but not required for MVP:
    ```
 
 4. **Use token in requests**:
+
    ```
    Authorization: Bearer {access_token}
    ```
@@ -318,12 +341,14 @@ These are mentioned in specs but not required for MVP:
 ### Retry Strategy
 
 For 5xx errors:
+
 1. Wait 1 second, retry
 2. If fails, wait 2 seconds, retry
 3. If fails, wait 4 seconds, retry
 4. If fails 3 times, log error and continue (stale data is OK for MVP)
 
 For 420:
+
 1. Stop all requests for 60 seconds
 2. Resume with reduced rate
 
@@ -332,17 +357,20 @@ For 420:
 ## Rate Limiting Strategy
 
 **Recommended approach:**
+
 1. Track request count per minute
 2. Stay under 200 requests/minute (buffer below 300 limit)
 3. If approaching limit, pause and resume next minute
 4. Log all API calls to `api_request_log` table
 
 **For MVP:**
+
 - Corporation endpoints: ~4 requests (blueprints, jobs, assets, orders) × pagination
 - Market endpoint: N requests where N = number of unique items to price
 - Expected: ~50-200 requests per refresh depending on data size
 
 **Optimization:**
+
 - Cache responses aggressively
 - Don't refetch if ETags haven't changed
 - Consider batching market history requests (fetch top 100 items only)
@@ -352,12 +380,14 @@ For 420:
 ## Testing Strategy
 
 ### Manual Testing
+
 1. Use ESI API explorer to test endpoints manually
 2. Verify scope permissions are correct
 3. Check response format matches documentation
 4. Test pagination with your actual corporation data
 
 ### Integration Testing
+
 1. Parse one blueprint response into database
 2. Verify foreign keys to reference domain work
 3. Check exclusion queries work with test data
@@ -371,7 +401,7 @@ For 420:
 - Versions are stable and don't change
 - New versions are released when breaking changes occur
 - **For MVP:** Use latest stable version documented above
-- **Monitor:** ESI changelog at https://github.com/esi/esi-issues for deprecation notices
+- **Monitor:** ESI changelog at <https://github.com/esi/esi-issues> for deprecation notices
 
 ---
 

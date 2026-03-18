@@ -3,6 +3,7 @@
 This document provides visual representations of the database schema and table relationships.
 
 **Related Documentation:**
+
 - [Reference Domain Schema](../schema/reference_domain.md) - Detailed table specifications
 - [Corporation Domain Schema](../schema/corporation_domain.md) - Corp tables
 - [Market Domain Schema](../schema/market_domain.md) - Market tables
@@ -366,6 +367,7 @@ CREATE INDEX idx_api_created ON api_request_log(created_at DESC);
 ## Next Steps
 
 When implementing schema:
+
 1. Start with Reference Domain (M1/M2)
 2. Add Corporation Domain (M3)
 3. Add Market Domain (M4)

@@ -3,6 +3,7 @@
 This document provides visual representations of the Kubernetes infrastructure and networking topology.
 
 **Related Documentation:**
+
 - [MVP v1 Roadmap](../roadmap.md) - Implementation milestones
 - [Component Repository Mapping](../implementation/component_repository_mapping.md) - What gets deployed
 - [ESI Endpoints](../implementation/esi_endpoints.md) - External API connections
