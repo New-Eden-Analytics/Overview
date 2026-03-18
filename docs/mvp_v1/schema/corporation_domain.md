@@ -1,12 +1,19 @@
-# NEA MVP Schema — Corporation Production State Domain
+# NEA MVP Schema — Corporation Domain
 
 Schema Version: NEA MVP v1
+
+**Related Documentation:**
+
+- [MVP v1 Specification](../specification.md) - Overall requirements
+- [Data Model Diagram](../architecture/data_model.md) - Visual schema overview
+- [ESI Endpoints](../implementation/esi_endpoints.md) - API endpoints that populate this domain (M3)
+- [MVP v1 Roadmap](../roadmap.md) - Implementation timeline (M3)
 
 ---
 
 # 1. Purpose
 
-The Corporation Production State Domain contains the current corporation-specific operational data required for NEA v1 to determine:
+The Corporation Domain contains the current corporation-specific operational data required for NEA v1 to determine:
 
 - which blueprint instances are available for production
 - the ME and TE values associated with those blueprint instances
@@ -16,7 +23,7 @@ The Corporation Production State Domain contains the current corporation-specifi
 
 This domain serves as the **canonical source of current corporation production state** used by the NEA recommendation engine.
 
-The Corporation Production State Domain does **not** contain static production definitions, market pricing, recommendation outputs, or configuration that assigns semantic meaning to specific locations.
+The Corporation Domain does **not** contain static production definitions, market pricing, recommendation outputs, or configuration that assigns semantic meaning to specific locations.
 
 ---
 
@@ -24,7 +31,7 @@ The Corporation Production State Domain does **not** contain static production d
 
 ## Included
 
-The Corporation Production State Domain includes:
+The Corporation Domain includes:
 
 - corporation-owned blueprint instances
 - per-blueprint ME and TE values
@@ -40,7 +47,7 @@ This information allows NEA to determine:
 
 ## Excluded
 
-The Corporation Production State Domain does **not** include:
+The Corporation Domain does **not** include:
 
 - blueprint definitions
 - item definitions
@@ -59,7 +66,7 @@ These concerns belong to other domains.
 
 # 3. Design Goals
 
-The Corporation Production State Domain schema must satisfy the following goals:
+The Corporation Domain schema must satisfy the following goals:
 
 1. Represent current corporation operational state relevant to production recommendations.
 2. Support blueprint eligibility checks based on blueprint instance presence.
@@ -96,7 +103,7 @@ The **Configuration Domain assigns workflow meaning** to specific locations.
 
 # 5. Canonical Entities
 
-The Corporation Production State Domain consists of five tables:
+The Corporation Domain consists of five tables:
 
 1. `corp_location`
 2. `corp_blueprint_instance`
@@ -327,7 +334,7 @@ Buy orders are not tracked in the MVP schema.
 
 # 9. Expected Usage in NEA v1
 
-The Corporation Production State Domain supports the following operations.
+The Corporation Domain supports the following operations.
 
 ## Usage Examples
 
@@ -372,4 +379,4 @@ The following features are excluded from the MVP schema:
 | corp_staging_inventory | Filtered staging inventory |
 | corp_active_sell_order | Active sell orders |
 
-These tables represent the **minimum Corporation Production State Domain required to support NEA v1 recommendations**.
+These tables represent the **minimum Corporation Domain required to support NEA v1 recommendations**.

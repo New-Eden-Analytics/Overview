@@ -2,6 +2,12 @@
 
 Schema Version: NEA MVP v1
 
+**Related Documentation:**
+
+- [MVP v1 Specification](../specification.md) - Overall requirements
+- [Data Model Diagram](../architecture/data_model.md) - Visual schema overview
+- [MVP v1 Roadmap](../roadmap.md) - Implementation timeline (M2)
+
 ---
 
 # 1. Purpose
@@ -62,7 +68,7 @@ The Reference Domain schema must satisfy the following goals:
 1. Identify all manufacturable items relevant to NEA.
 2. Identify which blueprint produces each manufacturable item.
 3. Identify the materials required to manufacture each item.
-4. Provide clean join points for the Market Observation Domain and the Corporation Production State Domain.
+4. Provide clean join points for the Market Domain and the Corporation Domain.
 5. Avoid embedding corporation-specific or market-specific logic.
 
 This domain should remain **purely static game data**.
@@ -159,7 +165,7 @@ blueprint_type_id
 
 This table represents the **blueprint definition only**.
 
-Corporation-owned blueprint instances belong in the **Corporation Production State Domain**.
+Corporation-owned blueprint instances belong in the **Corporation Domain**.
 
 ---
 
@@ -211,7 +217,7 @@ Defines the materials required to manufacture an item.
 
 Material quantities represent **base blueprint requirements**.
 
-Material Efficiency adjustments are applied later using blueprint attributes stored in the **Corporation Production State Domain**.
+Material Efficiency adjustments are applied later using blueprint attributes stored in the **Corporation Domain**.
 
 ---
 
@@ -247,7 +253,7 @@ No corporation state, market state, or recommendation output may be stored here.
 
 Blueprint definitions stored here represent **blueprint types**.
 
-Owned blueprint instances are stored in the **Corporation Production State Domain**.
+Owned blueprint instances are stored in the **Corporation Domain**.
 
 ## Rule 3 — Manufacturing Only
 
@@ -283,7 +289,7 @@ By joining `blueprint_product` with `blueprint_material`, NEA determines require
 
 ### Join Market Prices
 
-By joining item IDs with the Market Observation Domain, NEA determines:
+By joining item IDs with the Market Domain, NEA determines:
 
 - output sale price
 - input material cost

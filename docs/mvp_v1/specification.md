@@ -1,5 +1,14 @@
 # New Eden Analytics (NEA) - Minimum Viable Product (MVP) Specification
 
+**Related Documentation:**
+
+- [MVP v1 Roadmap](roadmap.md) - Implementation milestones and timeline
+- [Component Repository Mapping](implementation/component_repository_mapping.md) - GitHub repository structure
+- [Testing Strategy](implementation/testing_strategy.md) - Validation and testing approach
+- [Data Model Diagram](architecture/data_model.md) - Visual database schema
+- [Infrastructure Diagram](architecture/infrastructure.md) - Kubernetes architecture
+- [ESI Endpoints](implementation/esi_endpoints.md) - EVE API integration details
+
 ---
 
 # 1. Purpose
@@ -223,9 +232,9 @@ This domain represents **persistent static game data**.
 
 ---
 
-## Corporation Production State Domain
+## Corporation Domain
 
-Schema: [Corporation Production State Domain Schema](schema/corporation_domain.md)
+Schema: [Corporation Domain Schema](schema/corporation_domain.md)
 
 Stores corporation state required to determine the current production pipeline.
 

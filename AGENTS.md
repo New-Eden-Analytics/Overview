@@ -7,12 +7,12 @@ This file captures non-obvious intent for contributors and IDE agents working in
 Product/domain semantics are defined in the docs and should not be re-specified here.
 Use these as authoritative references:
 
-- `docs/nea_mvp_v1.md` for MVP goals, scope, behavior, and roadmap constraints
-- `docs/schema/reference_domain.md`
-- `docs/schema/corporation_domain.md`
-- `docs/schema/market_domain.md`
-- `docs/schema/configuration_domain.md`
-- `docs/schema/operational_domain.md` for telemetry semantics (source identity, refresh cadence, run status, logging, redaction)
+- `docs/mvp_v1/specification.md` for MVP goals, scope, behavior, and roadmap constraints
+- `docs/mvp_v1/schema/reference_domain.md`
+- `docs/mvp_v1/schema/corporation_domain.md`
+- `docs/mvp_v1/schema/market_domain.md`
+- `docs/mvp_v1/schema/configuration_domain.md`
+- `docs/mvp_v1/schema/operational_telemetry_domain.md` for telemetry semantics (source identity, refresh cadence, run status, logging, redaction)
 
 ## Branch Strategy
 
@@ -49,6 +49,18 @@ Changes are typically merged into `dev` first. Periodic PRs are created from `de
 - After proposal/question discussion, require an explicit execution cue (for example "implement this", "go ahead and make this change") before making changes.
 - If intent is ambiguous, ask a short clarifying question before taking action.
 - Default to read-only discussion/planning until explicit execution direction is provided.
+
+## Plan Mode Rules
+
+When operating in plan mode:
+
+- **Always use ExitPlanMode tool** before making any file modifications (edits, creates, deletions, renames).
+- Present a complete plan to the user and wait for explicit approval.
+- Do not make edits during the planning phase, even if the task seems straightforward.
+- Plan mode does not bypass explicit instruction mode - both apply simultaneously.
+- Making edits without using ExitPlanMode violates the explicit instruction mode rules above.
+- This applies to ALL file modifications: code, documentation, configuration, tests, and any other files.
+- After approval via ExitPlanMode, proceed with implementation using appropriate tools.
 
 ## Safety and Transparency Rules
 

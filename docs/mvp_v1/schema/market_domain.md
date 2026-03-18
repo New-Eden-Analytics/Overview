@@ -1,12 +1,19 @@
-# NEA MVP Schema — Market Observation Domain
+# NEA MVP Schema — Market Domain
 
 Schema Version: NEA MVP v1
+
+**Related Documentation:**
+
+- [MVP v1 Specification](../specification.md) - Overall requirements
+- [Data Model Diagram](../architecture/data_model.md) - Visual schema overview
+- [ESI Endpoints](../implementation/esi_endpoints.md) - Market history API endpoint (M4)
+- [MVP v1 Roadmap](../roadmap.md) - Implementation timeline (M4)
 
 ---
 
 # 1. Purpose
 
-The Market Observation Domain contains the pricing data required for NEA v1 to estimate production profitability.
+The Market Domain contains the pricing data required for NEA v1 to estimate production profitability.
 
 This domain stores the **latest pricing snapshot** used by the NEA recommendation engine.
 
@@ -16,7 +23,7 @@ It allows NEA to determine:
 - estimated purchase cost of input materials
 - the freshness of market pricing data used in calculations
 
-The Market Observation Domain does **not** store historical market time series data.  
+The Market Domain does **not** store historical market time series data.  
 Only the **latest pricing snapshot** is retained.
 
 ---
@@ -25,7 +32,7 @@ Only the **latest pricing snapshot** is retained.
 
 ## Included
 
-The Market Observation Domain includes:
+The Market Domain includes:
 
 - resolved pricing data for items
 - market volume information
@@ -36,7 +43,7 @@ This data supports the profitability calculations used by the recommendation eng
 
 ## Excluded
 
-The Market Observation Domain does **not** include:
+The Market Domain does **not** include:
 
 - historical price series
 - forecasting models
@@ -50,7 +57,7 @@ These concerns belong to other domains or future NEA versions.
 
 # 3. Design Goals
 
-The Market Observation Domain schema must satisfy the following goals:
+The Market Domain schema must satisfy the following goals:
 
 1. Provide a canonical latest pricing record for each item within a region.
 2. Provide pricing data usable for both product sale price and material input cost.
@@ -64,7 +71,7 @@ This domain represents **NEA’s canonical pricing snapshot**, not a mirror of e
 
 # 4. Canonical Entities
 
-The Market Observation Domain consists of a single table:
+The Market Domain consists of a single table:
 
 1. `market_price_snapshot`
 
@@ -107,7 +114,7 @@ When new market data is ingested, existing rows are updated rather than storing 
 
 # 6. Relationships
 
-The Market Observation Domain connects to the Reference Domain:
+The Market Domain connects to the Reference Domain:
 
 ```
 market_price_snapshot.type_id → Reference Domain item_type.type_id
@@ -158,7 +165,7 @@ Station-level price modeling is intentionally excluded.
 
 # 8. Expected Usage in NEA v1
 
-The Market Observation Domain supports the following operations.
+The Market Domain supports the following operations.
 
 ## Usage Examples
 
@@ -178,7 +185,7 @@ The `observed_at` timestamp allows NEA to determine whether pricing data may be 
 
 # 9. Out-of-Scope Extensions
 
-The following features are intentionally excluded from the MVP Market Observation Domain:
+The following features are intentionally excluded from the MVP Market Domain:
 
 - historical price storage
 - price forecasting
@@ -197,4 +204,4 @@ These features may be introduced in future NEA versions.
 |---|---|
 | market_price_snapshot | Canonical latest pricing snapshot used for profitability calculations |
 
-This table represents the **minimum Market Observation Domain required for NEA v1**.
+This table represents the **minimum Market Domain required for NEA v1**.

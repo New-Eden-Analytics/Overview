@@ -23,15 +23,15 @@ jobs:
           echo "=== Checking domain naming consistency ==="
           ERRORS=0
 
-          # Check MVP uses full domain names
-          if ! grep -q "## Corporation Production State Domain" docs/nea_mvp_v1.md; then
-            echo "❌ MVP v1 should use 'Corporation Production State Domain' not 'Corporation Domain'"
+          # Check MVP uses standardized domain names
+          if ! grep -q "## Corporation Domain" docs/mvp_v1/specification.md; then
+            echo "❌ MVP v1 should use 'Corporation Domain'"
             ERRORS=$((ERRORS + 1))
           else
             echo "✓ Corporation domain naming correct"
           fi
 
-          if ! grep -q "## Operational Telemetry Domain" docs/nea_mvp_v1.md; then
+          if ! grep -q "## Operational Telemetry Domain" docs/mvp_v1/specification.md; then
             echo "❌ MVP v1 should use 'Operational Telemetry Domain'"
             ERRORS=$((ERRORS + 1))
           else
@@ -48,8 +48,8 @@ jobs:
           ERRORS=0
 
           # Extract markdown links from MVP doc and check if files exist
-          grep -oP '\]\(schema/\K[^)]+' docs/nea_mvp_v1.md | while read -r link; do
-            if [ ! -f "docs/schema/$link" ]; then
+          grep -oP '\]\(schema/\K[^)]+' docs/mvp_v1/specification.md | while read -r link; do
+            if [ ! -f "docs/mvp_v1/schema/$link" ]; then
               echo "❌ Broken link in MVP v1: schema/$link"
               ERRORS=$((ERRORS + 1))
             else
@@ -67,10 +67,10 @@ jobs:
 
           # Extract all schema versions
           echo "Schema versions found:"
-          grep -h "Schema Version:" docs/schema/*.md | sort -u
+          grep -h "Schema Version:" docs/mvp_v1/schema/*.md | sort -u
 
           # Count unique versions
-          VERSION_COUNT=$(grep -h "Schema Version:" docs/schema/*.md | sort -u | wc -l)
+          VERSION_COUNT=$(grep -h "Schema Version:" docs/mvp_v1/schema/*.md | sort -u | wc -l)
 
           if [ "$VERSION_COUNT" -ne 1 ]; then
             echo "❌ Multiple schema versions found - all schemas should use the same version"
@@ -85,23 +85,23 @@ jobs:
           ERRORS=0
 
           # Check reference_domain.md contains "Reference Domain"
-          if ! grep -q "Reference Domain" docs/schema/reference_domain.md | head -5; then
+          if ! grep -q "Reference Domain" docs/mvp_v1/schema/reference_domain.md | head -5; then
             echo "❌ reference_domain.md should contain 'Reference Domain' in title"
             ERRORS=$((ERRORS + 1))
           else
             echo "✓ reference_domain.md title matches filename"
           fi
 
-          # Check corporation_domain.md contains "Corporation Production State Domain"
-          if ! grep -q "Corporation Production State Domain" docs/schema/corporation_domain.md | head -5; then
-            echo "❌ corporation_domain.md should contain 'Corporation Production State Domain' in title"
+          # Check corporation_domain.md contains "Corporation Domain"
+          if ! grep -q "Corporation Domain" docs/mvp_v1/schema/corporation_domain.md | head -5; then
+            echo "❌ corporation_domain.md should contain 'Corporation Domain' in title"
             ERRORS=$((ERRORS + 1))
           else
             echo "✓ corporation_domain.md title matches filename"
           fi
 
           # Check market_domain.md contains "Market"
-          if ! grep -q "Market.*Domain" docs/schema/market_domain.md | head -5; then
+          if ! grep -q "Market.*Domain" docs/mvp_v1/schema/market_domain.md | head -5; then
             echo "❌ market_domain.md should contain 'Market' domain in title"
             ERRORS=$((ERRORS + 1))
           else
@@ -109,7 +109,7 @@ jobs:
           fi
 
           # Check configuration_domain.md contains "Configuration"
-          if ! grep -q "Configuration Domain" docs/schema/configuration_domain.md | head -5; then
+          if ! grep -q "Configuration Domain" docs/mvp_v1/schema/configuration_domain.md | head -5; then
             echo "❌ configuration_domain.md should contain 'Configuration Domain' in title"
             ERRORS=$((ERRORS + 1))
           else
@@ -117,7 +117,7 @@ jobs:
           fi
 
           # Check operational_telemetry_domain.md contains "Operational Telemetry"
-          if ! grep -q "Operational Telemetry Domain" docs/schema/operational_telemetry_domain.md | head -5; then
+          if ! grep -q "Operational Telemetry Domain" docs/mvp_v1/schema/operational_telemetry_domain.md | head -5; then
             echo "❌ operational_telemetry_domain.md should contain 'Operational Telemetry Domain' in title"
             ERRORS=$((ERRORS + 1))
           else

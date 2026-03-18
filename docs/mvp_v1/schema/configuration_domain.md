@@ -2,6 +2,12 @@
 
 Schema Version: NEA MVP v1
 
+**Related Documentation:**
+
+- [MVP v1 Specification](../specification.md) - Overall requirements
+- [Data Model Diagram](../architecture/data_model.md) - Visual schema overview
+- [MVP v1 Roadmap](../roadmap.md) - Used throughout all milestones
+
 ---
 
 # 1. Purpose
@@ -102,7 +108,7 @@ config_id
 
 ### Notes
 
-Locations referenced here correspond to factual location records stored in the **Corporation Production State Domain**.
+Locations referenced here correspond to factual location records stored in the **Corporation Domain**.
 
 These locations may represent:
 
@@ -120,9 +126,9 @@ Configuration assigns **workflow roles** to these locations.
 The Configuration Domain references identifiers from other domains.
 
 ```
-nea_config.active_corporation_id → Corporation Production State Domain
+nea_config.active_corporation_id → Corporation Domain
 
-nea_config.active_region_id → Market Observation Domain
+nea_config.active_region_id → Market Domain
 
 nea_config.blueprint_source_location_id → corp_location.location_id
 nea_config.staging_location_id → corp_location.location_id
@@ -145,7 +151,7 @@ Although NEA v1 uses a single configuration row, explicit identifiers prevent am
 
 ## Rule 2 — Workflow Roles Reference Locations
 
-Location fields reference factual locations stored in the Corporation Production State Domain.
+Location fields reference factual locations stored in the Corporation Domain.
 
 Configuration assigns **semantic roles** to those locations.
 
