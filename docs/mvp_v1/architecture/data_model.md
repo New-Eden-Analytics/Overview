@@ -291,22 +291,22 @@ Step 8: Rank and Return
 
 | Table | Primary Key |
 |-------|-------------|
-| **Reference Domain** |
+| **Reference Domain** | |
 | item_type | type_id |
 | blueprint | blueprint_type_id, activity_id |
 | blueprint_product | blueprint_type_id, activity_id |
 | blueprint_material | blueprint_type_id, activity_id, material_type_id |
-| **Corporation Domain** |
+| **Corporation Domain** | |
 | corp_location | corporation_id, location_id |
 | corp_blueprint_instance | corporation_id, blueprint_instance_id |
 | corp_industry_job | corporation_id, job_id |
 | corp_staging_inventory | corporation_id, location_id, type_id |
 | corp_active_sell_order | corporation_id, order_id |
-| **Market Domain** |
+| **Market Domain** | |
 | market_price_snapshot | region_id, type_id |
-| **Configuration Domain** |
+| **Configuration Domain** | |
 | nea_config | config_id |
-| **Operational Telemetry Domain** |
+| **Operational Telemetry Domain** | |
 | source_instance | source_name |
 | source_sync_status | source_name |
 | source_refresh_run | run_id |

@@ -25,7 +25,9 @@ This document maps each milestone's deliverables to the appropriate GitHub repos
 
 ## Milestone 0: Foundation
 
-**Infrastructure only - no code repositories involved**
+### Infrastructure Setup
+
+Infrastructure only - no code repositories involved
 
 **Deliverables:**
 
@@ -472,7 +474,9 @@ NEA-Analysis/
 
 ## Milestone 6: Production Hardening
 
-**All repositories touched for polish and reliability**
+### Production Polish
+
+All repositories touched for polish and reliability
 
 ### Infrastructure/Overview
 
